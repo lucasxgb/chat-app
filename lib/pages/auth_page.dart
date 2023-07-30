@@ -1,6 +1,6 @@
 import 'package:chat/components/auth_form.dart';
 import 'package:chat/core/models/auth_form_data.dart';
-import 'package:chat/core/services/auth/auth_mock_services.dart';
+import 'package:chat/core/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 
 /* Atualizações na classe para ficar compátivel com a implementação exigida pelo
@@ -24,12 +24,12 @@ class _AuthPageState extends State<AuthPage> {
       if (formData.isLogin) {
         /* Await significa esperar para ir pra frente só depois de receber uma resposta 
         a execução do código */
-        await AuthMockService().login(
+        await AuthService().login(
           formData.email,
           formData.password,
         );
       } else {
-        await AuthMockService().signup(
+        await AuthService().signup(
           formData.name,
           formData.email,
           formData.password,
@@ -60,7 +60,7 @@ class _AuthPageState extends State<AuthPage> {
             Container(
               color: const Color.fromRGBO(0, 0, 0, 0.5),
               child: const Center(
-                child: const CircularProgressIndicator(),
+                child: CircularProgressIndicator(),
               ),
             )
         ],

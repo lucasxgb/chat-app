@@ -8,13 +8,22 @@ import 'package:chat/core/models/chat_user.dart';
 import 'package:chat/core/services/auth/auth_service.dart';
 
 class AuthMockService implements AuthService {
+  static const _defaultUser = ChatUser(
+    id: '1',
+    name: 'Lucas Gabriel',
+    email: 'lgabriel@gmail.com',
+    imageUrl: 'assets/images/avatar.png',
+  );
+
   /* Ao utilizar o static, indepente da instância da classe, eu vou ter os mesmos
   usuários cadastrados*/
-  static Map<String, ChatUser> _users = {};
+  static final Map<String, ChatUser> _users = {
+    _defaultUser.email: _defaultUser
+  };
   static MultiStreamController<ChatUser?>? _controller;
   static final _userStream = Stream<ChatUser?>.multi((controller) {
     _controller = controller;
-    _updateUser(null);
+    _updateUser(_defaultUser);
   });
 
   /* Ao fazer váris instâncias de AuthMockService, eu ainda vou ter o mesmo usuário 

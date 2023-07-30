@@ -4,6 +4,7 @@
  */
 import 'dart:io';
 import 'package:chat/core/models/chat_user.dart';
+import 'package:chat/core/services/auth/auth_mock_services.dart';
 
 abstract class AuthService {
   /* Usuário logado, é opcional pois se não tiver usuário logado o valor será nullo */
@@ -25,5 +26,11 @@ abstract class AuthService {
     String email,
     String password,
   );
+
   Future<void> logout();
+
+  /* Retornando uma implementação de uma classe genérica a partir dela mesma */
+  factory AuthService() {
+    return AuthMockService();
+  }
 }

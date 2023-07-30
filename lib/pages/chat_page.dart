@@ -1,4 +1,6 @@
-import 'package:chat/core/services/auth/auth_mock_services.dart';
+import 'package:chat/components/messages.dart';
+import 'package:chat/components/new_message.dart';
+import 'package:chat/core/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatelessWidget {
@@ -7,19 +9,51 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: Text('É o chat né vida?'),
-          ),
-          TextButton(
-            onPressed: () {
-              AuthMockService().logout();
+      appBar: AppBar(
+        title: const Text(
+          'Cod3r Chat',
+          style: TextStyle(fontSize: 20),
+        ),
+        actions: [
+          DropdownButton(
+            icon: Icon(
+              Icons.more_vert,
+              color: Theme.of(context).primaryIconTheme.color,
+            ),
+            items: [
+              DropdownMenuItem(
+                value: 'logout',
+                child: Container(
+                  child: const Row(
+                    children: [
+                      Icon(
+                        Icons.exit_to_app,
+                        color: Colors.black87,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text('Sair'),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+            onChanged: (value) {
+              if (value == 'logout') {
+                AuthService().logout();
+              }
             },
-            child: Text('Logout'),
           ),
         ],
+      ),
+      body: const SafeArea(
+        child: Column(
+          children: [
+            Expanded(child: Menssages()),
+            NewMessage(),
+          ],
+        ),
       ),
     );
   }
