@@ -29,6 +29,12 @@
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>
+	<string>NSPhotoLibraryUsageDescription </string>
+	<key>We need acess to let you pick an image.</key>
+	<string>NSCameraUsageDescription </string>
+	<key>We need acess to let you pick an image.</key>
+	<string>NSMicrophoneUsageDescription  </string>
+	<key>We need acess to let you pick an image.</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
