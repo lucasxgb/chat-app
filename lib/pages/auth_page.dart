@@ -1,6 +1,10 @@
 import 'package:chat/components/auth_form.dart';
-import 'package:chat/models/auth_form_data.dart';
+import 'package:chat/core/models/auth_form_data.dart';
+import 'package:chat/core/services/auth/auth_mock_services.dart';
 import 'package:flutter/material.dart';
+
+/* Atualizações na classe para ficar compátivel com a implementação exigida pelo
+firebaseDB */
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -12,11 +16,31 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   bool _isLoading = false;
 
-  void _handleSubmit(AuthFormData formData) {
-    setState(() => _isLoading = true);
-    print('AuthPage...');
-    print(formData.email);
-    setState(() => _isLoading = false);
+  Future<void> _handleSubmit(AuthFormData formData) async {
+    /* Mesmo dando um erro ou funcionando corretamente, irá marcar o loading como falso */
+    try {
+      setState(() => _isLoading = true);
+
+      if (formData.isLogin) {
+        /* Await significa esperar para ir pra frente só depois de receber uma resposta 
+        a execução do código */
+        await AuthMockService().login(
+          formData.email,
+          formData.password,
+        );
+      } else {
+        await AuthMockService().signup(
+          formData.name,
+          formData.email,
+          formData.password,
+          formData.image,
+        );
+      }
+    } catch (error) {
+      //tratar o erro!
+    } finally {
+      setState(() => _isLoading = false);
+    }
   }
 
   @override
@@ -33,7 +57,7 @@ class _AuthPageState extends State<AuthPage> {
             ),
           ),
           if (_isLoading)
-             Container(
+            Container(
               color: const Color.fromRGBO(0, 0, 0, 0.5),
               child: const Center(
                 child: const CircularProgressIndicator(),

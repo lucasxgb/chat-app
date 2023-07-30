@@ -1,3 +1,4 @@
+import 'package:chat/pages/auth_or_app_page.dart';
 import 'package:chat/pages/auth_page.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
           circularTrackColor: Color(0XFFF4F7F5),
         ),
       ),
-      home: const AuthPage(),
+      home: const AuthOrAppPage(),
       debugShowCheckedModeBanner: false,
     );
   }
