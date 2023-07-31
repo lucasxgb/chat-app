@@ -17,66 +17,72 @@ class ChatPage extends StatelessWidget {
           'Cod3r Chat',
         ),
         actions: [
-          DropdownButtonHideUnderline(
-            child: DropdownButton(
-              icon: Icon(
-                Icons.more_vert,
-                color: Theme.of(context).primaryIconTheme.color,
-              ),
-              items: [
-                DropdownMenuItem(
-                  value: 'logout',
-                  child: Container(
-                    child: const Row(
-                      children: [
-                        Icon(
-                          Icons.exit_to_app,
-                          color: Colors.black87,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text('Sair'),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-              onChanged: (value) {
-                if (value == 'logout') {
-                  AuthService().logout();
-                }
-              },
-            ),
-          ),
-          Stack(
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
-                    return const NotificationPage();
-                  }));
-                },
-                icon: const Icon(Icons.notifications),
-              ),
-              Positioned(
-                top: 5,
-                right: 5,
-                child: CircleAvatar(
-                  maxRadius: 10,
-                  backgroundColor: Theme.of(context).colorScheme.secondary,
-                  child: Text(
-                    '${Provider.of<ChatNotificationService>(context).itemsCount}',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF1C1C1C),
-                      fontSize: 12,
-                    ),
+              DropdownButtonHideUnderline(
+                child: DropdownButton(
+                  icon: Icon(
+                    Icons.more_vert,
+                    color: Theme.of(context).primaryIconTheme.color,
                   ),
+                  items: [
+                    DropdownMenuItem(
+                      value: 'logout',
+                      child: Container(
+                        child: const Row(
+                          children: [
+                            Icon(
+                              Icons.exit_to_app,
+                              color: Colors.black87,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text('Sair'),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                  onChanged: (value) {
+                    if (value == 'logout') {
+                      AuthService().logout();
+                    }
+                  },
                 ),
-              )
+              ),
+              Stack(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (ctx) {
+                        return const NotificationPage();
+                      }));
+                    },
+                    icon: const Icon(Icons.notifications),
+                  ),
+                  Positioned(
+                    top: 5,
+                    right: 5,
+                    child: CircleAvatar(
+                      maxRadius: 10,
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                      child: Text(
+                        '${Provider.of<ChatNotificationService>(context).itemsCount}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1C1C1C),
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ],
-          ),
+          )
         ],
       ),
       body: const SafeArea(
