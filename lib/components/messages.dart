@@ -4,8 +4,8 @@ import 'package:chat/core/services/auth/auth_service.dart';
 import 'package:chat/core/services/chat/chat_service.dart';
 import 'package:flutter/material.dart';
 
-class Menssages extends StatelessWidget {
-  const Menssages({super.key});
+class Messages extends StatelessWidget {
+  const Messages({super.key});
 
   @override
   Widget build(BuildContext context) {

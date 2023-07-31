@@ -30,9 +30,9 @@ class _NewMessageState extends State<NewMessage> {
           child: TextField(
             controller: _messageController,
             onChanged: (msg) => setState(() => _message = msg),
-            decoration: InputDecoration(
-              labelText: 'Enviar Mensagem...',
-            ),
+            decoration: const InputDecoration(
+                labelText: 'Enviar Mensagem...',
+                contentPadding: EdgeInsets.only(left: 10)),
             onSubmitted: (_) {
               if (_message.trim().isNotEmpty) {
                 _sendMessage();
