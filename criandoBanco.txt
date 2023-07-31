@@ -1,0 +1,11 @@
+- O banco utilizado é o firebase, um banco não relacional e NoSql
+- Link: https://firebase.google.com/?hl=pt
+- Iniciar um novo projeto no banco
+
+- Configurando o projeto para o android:
+    - Logo na tela inicial do firebase vai ter o widget para criação de aplicação android,
+    basta preencher os campos e obterá um arquivo de configuração json.
+    - Colocar o arquivo json dentro da pasta app do projeto (android/app)
+    - Seguir os passos descritos no site, para configurar o build.gradle
+- Instalar Depêndencias Firebase: https://pub.dev/packages/firebase_auth
+- Selecionar a parte de autenticação do firebase → apenas email/senha
