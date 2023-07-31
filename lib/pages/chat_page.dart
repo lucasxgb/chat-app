@@ -14,6 +14,7 @@ class ChatPage extends StatelessWidget {
           'Cod3r Chat',
           style: TextStyle(fontSize: 20),
         ),
+        centerTitle: true,
         actions: [
           DropdownButton(
             icon: Icon(
