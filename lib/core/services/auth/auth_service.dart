@@ -4,7 +4,7 @@
  */
 import 'dart:io';
 import 'package:chat/core/models/chat_user.dart';
-import 'package:chat/core/services/auth/auth_mock_services.dart';
+import 'package:chat/core/services/auth/auth_firebase_services.dart';
 
 abstract class AuthService {
   /* Usuário logado, é opcional pois se não tiver usuário logado o valor será nullo */
@@ -31,6 +31,7 @@ abstract class AuthService {
 
   /* Retornando uma implementação de uma classe genérica a partir dela mesma */
   factory AuthService() {
-    return AuthMockService();
+    // return AuthMockService();
+    return AuthFirebaseService();
   }
 }

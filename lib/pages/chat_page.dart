@@ -14,7 +14,7 @@ class ChatPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Cod3r Chat',
+          'Xgb Chat',
         ),
         actions: [
           Row(
