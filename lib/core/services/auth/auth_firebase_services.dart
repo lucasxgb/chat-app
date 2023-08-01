@@ -109,10 +109,10 @@ class AuthFirebaseService implements AuthService {
     });
   }
 
-  static ChatUser _toChatUser(User user, [String? nameUser, imageURL]) {
+  static ChatUser _toChatUser(User user, [String? nameUser, String? imageURL]) {
     return ChatUser(
       id: user.uid,
-      name: user.displayName ?? user.email!.split('@')[0],
+      name: nameUser ?? user.displayName ?? user.email!.split('@')[0],
       email: user.email!,
       imageUrl: imageURL ?? user.photoURL ?? 'assets/images/avatar.png',
     );

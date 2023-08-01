@@ -8,7 +8,33 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatFirebaseService implements ChatService {
   Stream<List<ChatMessage>> messagesStream() {
-    return Stream<List<ChatMessage>>.empty();
+    final store = FirebaseFirestore.instance;
+    /* Recebe os dados sempre que a coleção for alterada visto que snapshots é um componente
+    do tipo stream */
+    final snapshots = store
+        .collection('chat')
+        .withConverter(fromFirestore: _fromFirestore, toFirestore: _toFirestore)
+        .orderBy('createdAt', descending: true)
+        .snapshots();
+
+    /* método que vai ficar escutando qualquer alteração que aconteça */
+
+    return Stream<List<ChatMessage>>.multi((controller) {
+      snapshots.listen((snapshot) {
+        /* Convertendo uma stream de dados para uma lista de messages */
+        List<ChatMessage> lista = snapshot.docs.map((doc) {
+          return doc.data();
+        }).toList();
+        controller.add(lista);
+      });
+    });
+
+    // Segunda opção
+    // return snapshots.map((snapshot) {
+    //   return snapshot.docs.map((doc) {
+    //       return doc.data();
+    //     }).toList();
+    // });
   }
 
   /* Refatoração do código para quando for preciso utilizar a conversão de dado pode
