@@ -11,49 +11,21 @@ class ChatFirebaseService implements ChatService {
     return Stream<List<ChatMessage>>.empty();
   }
 
-  Future<ChatMessage?> save(String text, ChatUser user) async {
-    final store = FirebaseFirestore.instance;
-    /* Transformando uma mensagem do tipo ChatMessage em um 
-    Map<String, dynamic> */
-    final docRef = await store.collection('chat').add({
-      'text': text,
-      'createdAt': DateTime.now().toIso8601String(),
-      'userId': user.id,
-      'userName': user.name,
-      'userImageURL': user.imageUrl,
-    });
-
-    /* Com a referência de um documento, eu consigo pegar um snapshot, que seria uma 
-    foto daquele documento (DocumentSnapshot) */
-    final doc = await docRef.get();
-    final data = doc.data()!;
-
-    /* Convertendo um Map<String,dynamic> para um ChatMessage */
-    return ChatMessage(
-      id: doc.id,
-      text: data['text'],
-      createdAt: DateTime.parse(data['createdAt']),
-      userId: data['userId'],
-      userName: data['userName'],
-      userImageURL: data['userImageURL'],
-    );
-
-    /* Refatoração do código para quando for preciso utilizar a conversão de dado pode
+  /* Refatoração do código para quando for preciso utilizar a conversão de dado pode
   fazer da forma abaixo:  */
 
-    /*Future<ChatMessage?> save(String text, ChatUser user) async {
+  Future<ChatMessage?> save(String text, ChatUser user) async {
     final store = FirebaseFirestore.instance;
-
     final msg = ChatMessage(
       id: '',
       text: text,
-      createdAt: DateTime.Now(),
+      createdAt: DateTime.now(),
       userId: user.id,
       userName: user.name,
-      userImageURL: user.imageURL,
-    )
-    withconvert  recebe dois métodos que vão realizar a conversão
-    final docRefII = await store
+      userImageURL: user.imageUrl,
+    );
+    /*withconvert  recebe dois métodos que vão realizar a conversão*/
+    final docRef = await store
         .collection('chat')
         .withConverter(
           fromFirestore: _fromFirestore,
@@ -62,12 +34,11 @@ class ChatFirebaseService implements ChatService {
         .add(msg);
 
     final doc = await docRef.get();
-    return doc.data!
-
+    return doc.data()!;
   }
 
- - Receber os dados do firebase e converter para um ChatMessage, sendo usado quando
- quero pegar as informações do firebase
+  /*- Receber os dados do firebase e converter para um ChatMessage, sendo usado quando
+ quero pegar as informações do firebase*/
   ChatMessage _fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> doc,
     SnapshotOptions? option,
@@ -82,17 +53,14 @@ class ChatFirebaseService implements ChatService {
     );
   }
 
-
-  Método que converte informações do tip Chatmessage e converte pra um MAp
-  Map<String, dynamic> _toFirestore (ChatMessage msg, SetOption? options){
-    return{
+  /*Método que converte informações do tip Chatmessage e converte pra um MAp*/
+  Map<String, dynamic> _toFirestore(ChatMessage msg, SetOptions? options) {
+    return {
       'text': msg.text,
       'createdAt': msg.createdAt.toIso8601String(),
       'userId': msg.userId,
       'userName': msg.userName,
       'userImageURL': msg.userImageURL,
     };
-  }
-  */
   }
 }

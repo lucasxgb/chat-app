@@ -7,6 +7,7 @@ import 'package:chat/core/models/chat_user.dart';
 import 'package:chat/core/services/auth/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class AuthFirebaseService implements AuthService {
@@ -34,7 +35,12 @@ class AuthFirebaseService implements AuthService {
 
   Future<void> signup(
       String name, String email, String password, File? image) async {
-    final auth = FirebaseAuth.instance;
+    /* Método que controla o login automatico */
+    final signup = await Firebase.initializeApp(
+      name: 'userSignup',
+      options: Firebase.app().options,
+    );
+    final auth = FirebaseAuth.instanceFor(app: signup);
 
     /* Criando usuário com email e senha */
     UserCredential userCredential = await auth.createUserWithEmailAndPassword(
@@ -52,8 +58,14 @@ class AuthFirebaseService implements AuthService {
     await userCredential.user?.updateDisplayName(name);
     await userCredential.user?.updatePhotoURL(imageURL);
 
+    /*2.1 - Fazer o login do usuário */
+    await login(email, password);
+
     /* 3. Salvar usuário no banco de dados (opcional) */
-    await _saveChatUser(_toChatUser(userCredential.user!, imageURL));
+    _currentUser = _toChatUser(userCredential.user!, name, imageURL);
+    await _saveChatUser(_currentUser!);
+
+    await signup.delete();
   }
 
   /* Método para fazer o login, internamente o fire base já faz tudo,
@@ -97,7 +109,7 @@ class AuthFirebaseService implements AuthService {
     });
   }
 
-  static ChatUser _toChatUser(User user, [String? imageURL]) {
+  static ChatUser _toChatUser(User user, [String? nameUser, imageURL]) {
     return ChatUser(
       id: user.uid,
       name: user.displayName ?? user.email!.split('@')[0],
@@ -105,7 +117,4 @@ class AuthFirebaseService implements AuthService {
       imageUrl: imageURL ?? user.photoURL ?? 'assets/images/avatar.png',
     );
   }
-
-
-
 }
